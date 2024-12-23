@@ -1,0 +1,45 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<main style="font-family: Arial, sans-serif; padding: 10px; background-color: #f8f9fa;">
+
+    <!-- Information Section -->
+    <section style="text-align: center; margin-bottom: 20px; padding: 10px;">
+        <h2 style="font-size: 1.8em; color: #343a40; margin-bottom: 10px;">Indian Railway Passenger Reservation Enquiry</h2>
+        <marquee style="color: #495057; font-size: 1em; padding: 10px; background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 5px;">
+            Please help Indian Railways and the Government of India in moving towards a digitized and cashless economy. Eradicate black money.
+        </marquee>
+    </section>
+
+    <!-- PNR Form Section -->
+    <section style="max-width: 500px; margin: 0 auto; text-align: center; border: 1px solid #ced4da; padding: 15px; border-radius: 10px; background-color: #ffffff; box-shadow: 0px 2px 5px rgba(0,0,0,0.1);">
+        <h3 style="font-size: 1.5em; color: #343a40; margin-bottom: 10px;">Enter the PNR for your booking below to get the current status.</h3>
+        <p style="color: #6c757d; margin-bottom: 20px;">You will find it on the top left corner of the ticket.</p>
+        <form action="{% url 'pnr' %}" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+            {% csrf_token %}
+            <input 
+                type="text" 
+                placeholder="Enter PNR No." 
+                name="pnr" 
+                style="width: 90%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-size: 1em;"
+            >
+            <div style="display: flex; justify-content: center; gap: 10px; width: 100%;">
+                <button 
+                    type="submit" 
+                    style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; width: 45%;"
+                >
+                    Submit
+                </button>
+                <button 
+                    type="reset" 
+                    style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; width: 45%;"
+                >
+                    Clear
+                </button>
+            </div>
+        </form>
+    </section>
+
+</main>
+{% endblock %}

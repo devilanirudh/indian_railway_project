@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    
+    <title>Welcome to Indian Railways</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="icon" href="{% static 'favicon/images.jpeg' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'favicon/b1.jpg' %}");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 1.5em;
+        }
+        footer {
+    background-color: rgba(52, 58, 64, 0.4); /* Dark background with 90% opacity */
+    color: white; /* White text for contrast */
+    text-align: center; /* Center-align text */
+    padding: 15px 0; /* Add a bit more padding for better spacing */
+    font-size: 1.1em; /* Slightly larger text for readability */
+    font-weight: 500; /* Semi-bold text for emphasis */
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow at the top */
+    position: relative; /* Maintain current positioning */
+    backdrop-filter: blur(5px); /* Optional: Add a blur effect for a glass-like appearance */
+}
+
+        .content-wrapper {
+            min-height: calc(100vh - 50px); /* Adjust height minus footer height */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="content-wrapper">
+        <!-- Add conditional spacing dynamically -->
+        <section style="{% if extra_spacing %}margin-top: 50px;{% endif %}"></section>
+        
+
+        <main class="overlay">
+            {% block content %}
+            <h1 style="text-align: center; margin-bottom: 20px; color: #333;">Experience the Journey with Indian Railways</h1>
+            <p style="text-align: center; color: #666; font-size: 1em;">
+                Welcome to the official platform for Indian Railways. Stay updated with live train statuses, book tickets, and much more!
+            </p>
+            {% endblock %}
+        </main>
+        <footer>
+            <p style="margin: 0;">Made by Anirudh Dev</p>
+        </footer>
+    </div>
+</body>
+</html>

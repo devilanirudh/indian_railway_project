@@ -1,0 +1,72 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<main style="font-family: Arial, sans-serif; padding: 10px; background-color: #f8f9fa;">
+
+    <!-- Information Section -->
+    <section style="text-align: center; margin-bottom: 20px; padding: 10px;">
+        <h2 style="font-size: 1.8em; color: #343a40; margin-bottom: 10px;">Indian Railway Station Search</h2>
+        <marquee style="color: #495057; font-size: 1em; padding: 10px; background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 5px;">
+            Help Indian Railways and the Government of India in moving towards a digitized and cashless economy. Eradicate black money.
+        </marquee>
+    </section>
+
+    <!-- Search Form Section -->
+    <section style="max-width: 500px; margin: 0 auto; text-align: center; border: 1px solid #ced4da; padding: 15px; border-radius: 10px; background-color: #ffffff; box-shadow: 0px 2px 5px rgba(0,0,0,0.1);">
+        <h3 style="font-size: 1.5em; color: #343a40; margin-bottom: 10px;">Search for a Station by City or Name</h3>
+        <p style="color: #6c757d; margin-bottom: 20px;">Enter the city or station name to view the relevant details.</p>
+        <form method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 15px;">
+            {% csrf_token %}
+            <input 
+                type="text" 
+                placeholder="Enter City or Station Name" 
+                name="city_name" 
+                required 
+                style="width: 90%; padding: 10px; border: 1px solid #ced4da; border-radius: 5px; font-size: 1em;"
+            >
+            <div style="display: flex; justify-content: center; gap: 10px; width: 100%;">
+                <button 
+                    type="submit" 
+                    style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; width: 45%;"
+                >
+                    Submit
+                </button>
+                <button 
+                    type="reset" 
+                    style="background-color: #6c757d; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; width: 45%;"
+                >
+                    Clear
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Search Results Section -->
+    {% if city_name %}
+        <section style="max-width: 700px; margin: 20px auto; text-align: center; background-color: #ffffff; border-radius: 10px; padding: 15px; border: 1px solid #ced4da;">
+            <h3 style="font-size: 1.5em; color: #343a40; margin-bottom: 10px;">Search Results for "{{ city_name|title }}"</h3>
+            {% if stations %}
+                <table style="width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px;">
+                    <thead>
+                        <tr style="background-color: #007bff; color: white; text-align: left;">
+                            <th style="padding: 10px; border: 1px solid #ced4da;">Station Code</th>
+                            <th style="padding: 10px; border: 1px solid #ced4da;">Station Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for station in stations %}
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ station.code }}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">{{ station.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p style="color: red; margin-top: 20px;">No stations found for the entered city.</p>
+            {% endif %}
+        </section>
+    {% endif %}
+</main>
+{% endblock %}

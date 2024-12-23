@@ -1,0 +1,71 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main class="main-content">
+    <!-- Back Button -->
+    <a href="{% url 'home' %}" class="btn btn-back" style="display: block; margin-bottom: 16px; text-decoration: none; background-color: #007bff; color: white; padding: 10px; text-align: center; border-radius: 5px;">Back</a>
+
+    <!-- Query Details Section -->
+    <section class="query-details" style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.5em; color: #333; margin-bottom: 10px;">PNR Enquiry Details</h2>
+        <p><strong>PNR Number:</strong> {{ pnrNumber }}</p>
+        <p><strong>Chart Status:</strong> {{ chartStatus }}</p>
+    </section>
+
+    <!-- Train Details Section -->
+    <section class="train-details" style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.5em; color: #333; margin-bottom: 10px;">Train Details</h2>
+        <div style="overflow-x: auto; margin-bottom: 10px;">
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <thead style="background-color: #f4f4f4;">
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Train Number</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Train Name</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Boarding Date</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">From</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">To</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Class</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Quota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ trainNumber }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ trainName }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ dateOfJourney }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ sourceStation }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ destinationStation }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ journeyClass }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ quota }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Passenger Details Section -->
+    <section class="passenger-details" style="margin-bottom: 20px;">
+        <h2 style="font-size: 1.5em; color: #333; margin-bottom: 10px;">Passenger Details</h2>
+        <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <thead style="background-color: #f4f4f4;">
+                    <tr>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">S. No.</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Booking Status</th>
+                        <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Current Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for passenger in passengerList %}
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ passenger.passengerSerialNumber }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ passenger.bookingStatusDetails }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">{{ passenger.currentStatusDetails }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+{% endblock %}

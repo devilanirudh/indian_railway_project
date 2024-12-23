@@ -1,0 +1,89 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+<main style="font-family: Arial, sans-serif; padding: 10px; background-color: #f8f9fa;">
+
+    <section style="text-align: center; margin-bottom: 20px; padding: 10px;">
+        <h2 style="font-size: 2em; color: #343a40; margin-bottom: 10px;">Train Info</h2>
+        <marquee style="color: #495057; font-size: 1em; padding: 10px; background-color: #e9ecef; border: 1px solid #ced4da; border-radius: 5px;">
+            Please help Indian Railways and the Government of India in moving towards a digitized and cashless economy. Eradicate black money.
+        </marquee>
+    </section>
+    <!-- Header Section -->
+    <!-- Train Info Form -->
+    <section style="max-width: 600px; margin: 0 auto; text-align: center; border: 1px solid #ced4da; padding: 20px; border-radius: 10px; background-color: #ffffff; box-shadow: 0px 2px 5px rgba(0,0,0,0.1);">
+        <h3 style="font-size: 1.5em; color: #343a40; margin-bottom: 15px;">Enter the Train Number:</h3>
+        <form action="{% url 'train_info' %}" method="POST" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+            {% csrf_token %}
+            <input 
+                type="text" 
+                id="train_number" 
+                name="train_number" 
+                placeholder="Enter Train Number" 
+                required 
+                style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 5px; font-size: 1em;"
+            >
+            <div style="display: flex; justify-content: center; gap: 15px; width: 100%;">
+                <button 
+                    type="submit" 
+                    style="background-color: #007bff; color: white; padding: 12px 25px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; width: 45%;"
+                >
+                    Submit
+                </button>
+                <button 
+                    type="reset" 
+                    style="background-color: #6c757d; color: white; padding: 12px 25px; border: none; border-radius: 5px; font-size: 1em; cursor: pointer; width: 45%;"
+                >
+                    Clear
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Error Message -->
+    {% if error %}
+    <section style="max-width: 600px; margin: 20px auto; text-align: center;">
+        <p class="error" style="color: red; font-size: 1.2em;">{{ error }}</p>
+    </section>
+    {% endif %}
+
+    <!-- Train Details and Schedule -->
+    {% if response %}
+    <section style="max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #ced4da; border-radius: 10px; background-color: #ffffff; box-shadow: 0px 2px 5px rgba(0,0,0,0.1);">
+        <h3 style="font-size: 1.8em; color: #343a40; margin-bottom: 15px;">Train Details</h3>
+        <p style="font-size: 1.2em;"><strong>Train Name:</strong> {{ response.body.0.trains.0.trainName }}</p>
+        <p style="font-size: 1.2em;"><strong>Train Number:</strong> {{ response.body.0.trains.0.trainNumber }}</p>
+        <p style="font-size: 1.2em;"><strong>Origin:</strong> {{ response.body.0.trains.0.origin }}</p>
+        <p style="font-size: 1.2em;"><strong>Destination:</strong> {{ response.body.0.trains.0.destination }}</p>
+        <p style="font-size: 1.2em;"><strong>Running Days:</strong> {{ response.body.0.trains.0.runningOn }}</p>
+        <p style="font-size: 1.2em;"><strong>Journey Classes:</strong> {{ response.body.0.trains.0.journeyClasses|join:", " }}</p>
+
+        <h3 style="font-size: 1.8em; color: #343a40; margin-top: 20px;">Schedule</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr style="background-color: #007bff; color: white; text-align: left;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Station Code</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Station Name</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Arrival Time</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Departure Time</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Distance (KM)</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Day</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for station in response.body.0.trains.0.schedule %}
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ station.stationCode }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ station.stationName }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ station.arrivalTime }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ station.departureTime }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ station.distance }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ station.dayCount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    {% endif %}
+</main>
+{% endblock %}
